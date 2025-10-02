@@ -1,0 +1,6 @@
+Flask==2.3.3
+Flask-SQLAlchemy==3.1.1
+qrcode==7.4.2
+gspread==6.1.2
+google-auth==2.35.0
+Pillow
