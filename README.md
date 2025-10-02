@@ -64,6 +64,7 @@ This application requires a Google Cloud Service Account to interact with Google
 		3. Download the service account's JSON key file.
 		4. IMPORTANT: Rename the file to service_account.json and place it in the project's root directory. The .gitignore file is already configured to prevent this file from being uploaded to GitHub.
 		5. Share your target Google Sheet with the client_email found inside your service_account.json file.
+   		6. Replace the placeholders for SHEET_ID and SERVICE_ACCOUNT_FILE inside app.py with your own Sheet ID and Service Account File.
 
 6. Initialize the Database
 Run the database initialization script. This only needs to be done once.
