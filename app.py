@@ -30,7 +30,7 @@ app.logger.addHandler(file_handler)
 
 # Google Sheets Configuration
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
-SERVICE_ACCOUNT_FILE = 'dandiyatickets-6a90ec20ce71.json'  # Ensure this file is in your project directory
+SERVICE_ACCOUNT_FILE = 'YOUR SERVICE ACCOUNT FILE'  # Ensure this file is in your project directory
 
 credentials = Credentials.from_service_account_file(
     SERVICE_ACCOUNT_FILE,
@@ -39,7 +39,7 @@ credentials = Credentials.from_service_account_file(
 
 gc = gspread.authorize(credentials)
 
-SHEET_ID = '1O6qOmn3ZYbYVZejgmZYKE3xROFsWGxVNnSLKRa_YZ5o'  # Replace with your actual Google Sheet ID
+SHEET_ID = 'YOUR SHEET ID'  # Replace with your actual Google Sheet ID
 sh = gc.open_by_key(SHEET_ID)
 worksheet = sh.sheet1  # Assumes you're using the first sheet
 
@@ -165,3 +165,4 @@ def handle_exception(e):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
+
