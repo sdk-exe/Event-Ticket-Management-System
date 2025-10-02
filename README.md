@@ -29,7 +29,8 @@ The system solves a critical event management problem: how to issue unique, frau
 	│   ├── index.html          # Main page for generating tickets
 	│   ├── scan.html           # Page for scanning QR codes
 	|── static/                 # Directory where generated QR codes are saved
-	|    └── (OR Codes)           
+	|    └── (OR Codes)  '
+	├──init_db.py
 	├──ticketdatabase.py
 	└──reset_database.py
 	
