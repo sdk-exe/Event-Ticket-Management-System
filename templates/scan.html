@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scan Ticket</title>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #qr-reader {
+            width: 100%;
+            margin: auto;
+        }
+        #scanResult {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #scanResult img {
+            margin-top: 10px;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Scan Ticket</h1>
+        <div id="qr-reader"></div>
+        <div id="scanResult"></div>
+    </div>
+
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            // Handle on success condition with the decoded text or result.
+            console.log(`Scan result: ${decodedText}`, decodedResult);
+            // Stop scanning after successful scan
+            html5QrcodeScanner.clear();
+
+            // Send the decodedText (ticket_id) to the server for validation
+            fetch('/scan_ticket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ ticket_id: decodedText }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'valid') {
+                    document.getElementById('scanResult').innerHTML = `
+                        <p style="color: green;"><strong>${data.message}</strong></p>
+                    `;
+                } else if (data.status === 'invalid') {
+                    document.getElementById('scanResult').innerHTML = `
+                        <p style="color: red;"><strong>${data.message}</strong></p>
+                    `;
+                } else {
+                    document.getElementById('scanResult').innerHTML = `
+                        <p style="color: red;"><strong>${data.message}</strong></p>
+                    `;
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.getElementById('scanResult').innerText = 'An unexpected error occurred. Please try again later.';
+            });
+        }
+
+        function onScanFailure(error) {
+            // Handle scan failure, usually better to ignore and keep scanning.
+            console.warn(`Code scan error = ${error}`);
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader", { fps: 10, qrbox: 250 }, /* verbose= */ false);
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script>
+</body>
+</html>
